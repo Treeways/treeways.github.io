@@ -13,10 +13,6 @@
         <title>Treeways</title>
 </head>
 
-<style>
-</style>
-
-
 <body>
         <article>
                 <section>
@@ -32,7 +28,7 @@
                         <p>
                                 Currently <u>extremely busy.</u> Will hopefully update this site daily.
                         </p>
-                        <p>Last updated on July 15, 2025</p>
+                        <p id="lastUpdated" hidden>Enable JavaScript to see when this page was last updated.</p>
                 </section>
                 <section>
                         <h2>Projects</h2>
@@ -49,7 +45,8 @@
                                         but similar in others.
                                         They both involve adding client support on top of a scripting language,
                                         the former which I've used much more than the latter.
-                                        So my hope is that by completing one project, the other will be easier, and vice versa.
+                                        So my hope is that by completing one project, the other will be easier, and vice
+                                        versa.
                                 </p>
                                 <p>
                                         The CrossCode randomizer is a different can of worms, since
@@ -156,5 +153,63 @@
         </article>
 
 </body>
+
+<script>
+        function getOrdinal(dayNumber) {
+                const suffixes = ["th", "st", "nd", "rd"];
+                const lastTwoDigits = dayNumber % 100;
+                const lastDigit = dayNumber % 10;
+
+                const suffix =
+                        lastTwoDigits >= 11 && lastTwoDigits <= 13
+                                ? "th"
+                                : suffixes[lastDigit] || "th";
+
+                return `${dayNumber}${suffix}`;
+        }
+
+        let lastUpdated;
+        // Gets the latest commit date and shows it on the webpage.
+        fetch("https://api.github.com/repos/Treeways/treeways.github.io/branches/master")
+                .then(response => {
+                        if (response.ok) {
+                                return response.json();
+                        }
+                })
+                .then(data => {
+                        if (data) {
+                                // Convert ISO UTC timestamp to a nicer human-readable date
+                                const date = new Date(data["commit"]["commit"]["author"]["date"]);
+                                const dateOptions = {
+                                        weekday: "long",
+                                        year: "numeric",
+                                        month: "long",
+                                        day: "numeric",
+                                };
+                                const timeOptions = {
+                                        hour: "2-digit",
+                                        minute: "2-digit",
+                                };
+                                const formattedDate = date.toLocaleDateString("en-US", dateOptions);
+                                const formattedTime = date.toLocaleTimeString("en-US", timeOptions);
+
+                                // Get the ordinal so it looks nicer
+                                const dayOrdinal = getOrdinal(date.getDate());
+                                const formattedDateSplit = formattedDate.split(" ");
+                                if (formattedDateSplit.length >= 3) {
+                                        formattedDateSplit[2] = dayOrdinal + ",";
+                                }
+                                const formattedDateCombined = formattedDateSplit.join(" ");
+
+                                // Update the element and show it
+                                let lastUpdatedEl = document.getElementById("lastUpdated");
+                                lastUpdatedEl.innerHTML =
+                                        "Last updated on " + formattedDateCombined + " at " + formattedTime + ".";
+                                lastUpdatedEl.style.display = "block";
+                        }
+                })
+                .catch(error => {
+                });
+</script>
 
 </html>
