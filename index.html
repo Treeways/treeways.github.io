@@ -63,26 +63,57 @@
                         <section>
                                 <h3>AP Minecraft Multiworld Randomizer</h3>
                                 <p>
-                                        The unofficial KubeJS implementation is joining forces
-                                        with the upstream implementation for further modpack support.
-                                        This is great news, and if all goes well,
-                                        this could bring more modded Minecraft support to the wider community.
+                                        A full client rewrite is planned down the line - one focused on
+                                        modularity, maintainability and flexibility for any kind of modpack.
+                                        This will include first-class vanilla support
+                                        for the latest version of Minecraft,
+                                        KubeJS support for various versions,
+                                        and core client code that is easy enough to port
+                                        to beta and legacy versions of Minecraft.
                                 </p>
                                 <p>
-                                        Somehow, we're going to have to architect the underlying implementation
-                                        to work for everyone - from casual players to modded veterans - while
-                                        making it relatively easy for modpack devs to get involved.
+                                        I'm putting in my all to offer the best I can. If all goes well,
+                                        this could bring wide support to modded Minecraft randomization
+                                        for the broader community.
                                 </p>
                                 <p>
-                                        The other limitation is that,
-                                        instead of a thin wrapper around Kube working with
-                                        a manual modpack installation,
-                                        we should do our best to support the original randomizer's
-                                        support for headless server hosting.
+                                        We'll be making the vanilla implementation work for everyone,
+                                        from casual players to modded veterans.
+                                        We plan to bring full feature parity from the old randomizer to the new one,
+                                        and create a very sturdy foundation for adding new features on top of it.
+                                </p>
+                                <h4>Technical Details (Thus Far)</h4>
+                                <p>
+                                        I've been very particular with separating core client functionality
+                                        with implementation-specific functionality,
+                                        to create really maintainable code for the sake of all future parties.
                                 </p>
                                 <p>
-                                        Still though, as ambitious as the plan is, we're working to fill in the blanks;
-                                        it already feels like everyone's on the same page, for the most part.
+                                        We'll be decoupling the core client connectivity from randomizer features,
+                                        so that it's relatively easy for modpack developers to get involved with
+                                        making APWorlds for their modpack of choice.
+                                        This should result in much less of a maintenance burden, and an easier time
+                                        updating the vanilla randomizer when new versions of Minecraft come along.
+                                </p>
+                                <p>
+                                        The plan is to backport the core client to major versions of Minecraft
+                                        which modpack developers wish to support.
+                                        We will also be providing KubeJS bindings for those versions
+                                        so that modpack devs can implement hooks on the script level -
+                                        IntelliJ will not be required.
+                                        However, devs will still be welcome to create a Java mod
+                                        that uses the Archipelago core mod as a dependency.
+                                </p>
+                                <p>
+                                        For convenience's sake, we'll be rewriting the instance manager
+                                        which the original randomizer's APWorld had,
+                                        to best support headless server hosting.
+                                        This way, the .apmc file is modeled in a way that
+                                        also allows for manual client patching, if desired.
+                                </p>
+                                <p>
+                                        We're working to fill in the blanks and document everything officially.
+                                        Discussion about the rewrite is going by quick, and going smoothly.
                                 </p>
                                 <p>
                                         As I learn more about the Archipelago API,
@@ -91,7 +122,8 @@
                                         This project has more moving parts, after all.
                                 </p>
                                 <ul>
-                                        <li>Initial planning (75%)</li>
+                                        <li>Initial planning (88%)</li>
+                                        <li>Archipelago architecture writeup (0%)</li>
                                         <li>Archipelago API research (33%)</li>
                                         <li>APWorld + data generation (0%)</li>
                                         <li>KubeJS Archipelago addon (thin wrapper + client) (0%)</li>
@@ -185,7 +217,7 @@
         }
 
         let lastUpdated;
-        // Gets the latest commit date and shows it on the webpage.
+        /// Gets the latest commit date and shows it on the webpage.
         fetch("https://api.github.com/repos/Treeways/treeways.github.io/branches/master")
                 .then(response => {
                         if (response.ok) {
@@ -195,7 +227,10 @@
                 .then(data => {
                         if (data) {
                                 // Convert ISO UTC timestamp to a nicer human-readable date
-                                const date = new Date(data["commit"]["commit"]["author"]["date"]);
+                                const dateLastCommitted = new Date(data["commit"]["commit"]["author"]["date"]);
+                                const isDateWithinTwoMinutes =
+                                        (Date.now() - dateLastCommitted) <= (2 * 60000) ? true : false
+
                                 const dateOptions = {
                                         weekday: "long",
                                         year: "numeric",
@@ -206,11 +241,12 @@
                                         hour: "2-digit",
                                         minute: "2-digit",
                                 };
-                                const formattedDate = date.toLocaleDateString("en-US", dateOptions);
-                                const formattedTime = date.toLocaleTimeString("en-US", timeOptions);
+                                const formattedDate = dateLastCommitted.toLocaleDateString("en-US", dateOptions);
+                                const formattedTime = dateLastCommitted.toLocaleTimeString("en-US", timeOptions);
+                                const commitMessage = data["commit"]["commit"]["message"];
 
-                                // Get the ordinal so it looks nicer
-                                const dayOrdinal = getOrdinal(date.getDate());
+                                // Get the ordinal so the date looks nicer
+                                const dayOrdinal = getOrdinal(dateLastCommitted.getDate());
                                 const formattedDateSplit = formattedDate.split(" ");
                                 if (formattedDateSplit.length >= 3) {
                                         formattedDateSplit[2] = dayOrdinal + ",";
@@ -220,7 +256,8 @@
                                 // Update the element and show it
                                 let lastUpdatedEl = document.getElementById("lastUpdated");
                                 lastUpdatedEl.innerHTML =
-                                        "Last updated on " + formattedDateCombined + " at " + formattedTime + ".";
+                                        `Last updated on ${formattedDateCombined} at ${formattedTime}. (${commitMessage})
+                                        ${isDateWithinTwoMinutes ? "<br />This website was just updated; it'll refresh in just a moment." : ""}`;
                                 lastUpdatedEl.style.display = "block";
                         }
                 })
