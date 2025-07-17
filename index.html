@@ -41,14 +41,6 @@
                                         The others are side projects.
                                 </p>
                                 <p>
-                                        The Minecraft and Sonic CD randomizer projects are very different in most ways,
-                                        but similar in others.
-                                        They both involve adding client support on top of a scripting language,
-                                        the former which I've used much more than the latter.
-                                        So my hope is that by completing one project, the other will be easier, and vice
-                                        versa.
-                                </p>
-                                <p>
                                         The CrossCode randomizer is a different can of worms, since
                                         I mostly work on the data used for generation - however,
                                         it'd be cool to take on more roles once these other randomizers
@@ -63,10 +55,11 @@
                         <section>
                                 <h3>AP Minecraft Multiworld Randomizer</h3>
                                 <p>
-                                        A full client rewrite is planned down the line - one focused on
+                                        A full client rewrite is being worked on. It's focused on
                                         modularity, maintainability and flexibility for any kind of modpack.
                                         This will include first-class vanilla support
-                                        for the latest version of Minecraft,
+                                        for the latest version of Minecraft
+                                        (possibly including individual mod implementations),
                                         KubeJS support for various versions,
                                         and core client code that is easy enough to port
                                         to beta and legacy versions of Minecraft.
@@ -83,37 +76,29 @@
                                         and create a very sturdy foundation for adding new features on top of it.
                                 </p>
                                 <h4>Technical Details (Thus Far)</h4>
+                                <p>This is starting to get very ambitious.</p>
+                                <p>There are many features that should exist, all differing in scale:</p>
+                                <ol>
+                                        <li>An APWorld template designed for flexibility when writing logic</li>
+                                        <li>Headless server instance management from the APWorld</li>
+                                        <li>Optional support for running the randomizer within a single Prism client instance</li>
+                                        <li>A datapack generation system for "patching in" item and location IDs from the APWorld</li>
+                                        <li>Support for many earlier versions of Minecraft than just the latest version</li>
+                                        <li>Support for Fabric and Forge out of the box</li>
+                                        <li>Lots of vanilla randomizer features, and a more scalable framework</li>
+                                        <li>Support for KubeJS (Fabric/Forge)</li>
+                                        <li>A separate legacy client implementation for 1.12.2 and under</li>
+                                </ol>
                                 <p>
-                                        I've been very particular with separating core client functionality
-                                        with implementation-specific functionality,
-                                        to create really maintainable code for the sake of all future parties.
-                                </p>
-                                <p>
-                                        We'll be decoupling the core client connectivity from randomizer features,
-                                        so that it's relatively easy for modpack developers to get involved with
-                                        making APWorlds for their modpack of choice.
-                                        This should result in much less of a maintenance burden, and an easier time
-                                        updating the vanilla randomizer when new versions of Minecraft come along.
-                                </p>
-                                <p>
-                                        The plan is to backport the core client to major versions of Minecraft
-                                        which modpack developers wish to support.
-                                        We will also be providing KubeJS bindings for those versions
-                                        so that modpack devs can implement hooks on the script level -
-                                        IntelliJ will not be required.
-                                        However, devs will still be welcome to create a Java mod
-                                        that uses the Archipelago core mod as a dependency.
-                                </p>
-                                <p>
-                                        For convenience's sake, we'll be rewriting the instance manager
-                                        which the original randomizer's APWorld had,
-                                        to best support headless server hosting.
-                                        This way, the .apmc file is modeled in a way that
-                                        also allows for manual client patching, if desired.
+                                        Newly discussed is a mixin system for the APWorld,
+                                        which would exist to add better mod support.
+                                        This could theoretically work on top of the vanilla APWorld,
+                                        and would offer a better way to express very complicated logic
+                                        in modded APWorld implementations.
                                 </p>
                                 <p>
                                         We're working to fill in the blanks and document everything officially.
-                                        Discussion about the rewrite is going by quick, and going smoothly.
+                                        Discussion about the rewrite is going by very quick, and all is going smoothly.
                                 </p>
                                 <p>
                                         As I learn more about the Archipelago API,
@@ -229,7 +214,7 @@
                                 // Convert ISO UTC timestamp to a nicer human-readable date
                                 const dateLastCommitted = new Date(data["commit"]["commit"]["author"]["date"]);
                                 const isDateWithinTwoMinutes =
-                                        (Date.now() - dateLastCommitted) <= (2 * 60000) ? true : false
+                                        (Date.now() - dateLastCommitted) <= (1.5 * 60000) ? true : false
 
                                 const dateOptions = {
                                         weekday: "long",
