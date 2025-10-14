@@ -1,16 +1,18 @@
 /* FIXME: what a mess */
 
 html {
-        border-left: 1px solid #0F0;
-        border-right: 1px solid #0F0;
+	border-left: 1px solid #0f0;
+	border-right: 1px solid #0f0;
 }
 
 body {
-        background-color: black;
-        color: white;
-        font-family: "Unna", Didot, 'Bodoni MT', 'Noto Serif Display', 'URW Palladio L', P052, Sylfaen, serif;
-        font-size: 25px;
-        line-height: 1.2;
+	background-color: black;
+	color: white;
+	font-family:
+		"Unna", Didot, "Bodoni MT", "Noto Serif Display", "URW Palladio L", P052,
+		Sylfaen, serif;
+	font-size: 25px;
+	line-height: 1.2;
 }
 
 h1,
@@ -19,20 +21,22 @@ h3,
 h4,
 h5,
 h6 {
-        font-family: "Roboto Flex", Inter, Roboto, 'Helvetica Neue', 'Arial Nova', 'Nimbus Sans', Arial, sans-serif;
-        font-weight: 900;
+	font-family:
+		"Roboto Flex", Inter, Roboto, "Helvetica Neue", "Arial Nova", "Nimbus Sans",
+		Arial, sans-serif;
+	font-weight: 900;
 }
 
 h1 {
-        font-size: 45px;
+	font-size: 45px;
 }
 
 h2 {
-        font-size: 40px;
+	font-size: 40px;
 }
 
 h3 {
-        font-size: 30px;
+	font-size: 30px;
 }
 
 h1,
@@ -44,43 +48,45 @@ h6,
 p,
 ul,
 ol {
-        margin-top: 20px;
-        margin-bottom: 20px;
+	margin-top: 20px;
+	margin-bottom: 20px;
 }
 
 a {
-        background-color: inherit;
-        color: #00FF00;
-        transition: background-color 0.4s linear, color 0.4s linear;
+	background-color: inherit;
+	color: #00ff00;
+	transition:
+		background-color 0.4s linear,
+		color 0.4s linear;
 }
 
 a:hover {
-        background: white;
-        color: #000;
+	background: white;
+	color: #000;
 }
 
 section {
-        margin-top: 60px;
-        margin-bottom: 60px;
+	margin-top: 60px;
+	margin-bottom: 60px;
 }
 
 article {
-        max-width: 60%;
-        margin: auto;
-        margin-top: 10vh;
-        margin-bottom: 50vh;
+	max-width: 60%;
+	margin: auto;
+	margin-top: 10vh;
+	margin-bottom: 50vh;
 }
 
 @media screen and (max-width: 1100px) {
-        article {
-                max-width: 75%;
-                margin: auto;
-        }
+	article {
+		max-width: 75%;
+		margin: auto;
+	}
 }
 
 @media screen and (max-width: 800px) {
-        article {
-                max-width: 90%;
-                margin: auto;
-        }
+	article {
+		max-width: 90%;
+		margin: auto;
+	}
 }
