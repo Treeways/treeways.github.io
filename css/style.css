@@ -1,13 +1,11 @@
-/* FIXME: what a mess */
-
 html {
 	border-left: 1px solid #0f0;
 	border-right: 1px solid #0f0;
+	background-color: black;
+	color: white;
 }
 
 body {
-	background-color: black;
-	color: white;
 	font-family:
 		"Unna", Didot, "Bodoni MT", "Noto Serif Display", "URW Palladio L", P052,
 		Sylfaen, serif;
@@ -90,3 +88,9 @@ article {
 		margin: auto;
 	}
 }
+
+#ruffle-container {
+	display: flex;
+	justify-content: center;
+}
+
