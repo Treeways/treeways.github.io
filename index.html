@@ -18,99 +18,14 @@
 		<article>
 			<section>
 				<h1>Treeways</h1>
-				<p id="lastUpdated" hidden>
-					<i>Enable JavaScript to see when this page was last updated.</i>
+				<p>
+					<h3>Under construction</h3>
 				</p>
 				<p>
-					If you're looking for a status update, please pester me personally.
-					Thanks for checking in on me!
+					I'm working on an overhaul for this website.
+					Please visit again later!
 				</p>
-				<p>
-					If you get sub-1 minute on the first level in this flash game and send
-					me a screenshot, I'll give you something nice. (The password
-					595313131313131 will unlock some cool stuff.)
-				</p>
-			</section>
-			<section>
-				<p id="ruffle-container"></p>
 			</section>
 		</article>
 	</body>
-
-	<script>
-	window.RufflePlayer = window.RufflePlayer || {};
-	window.addEventListener("load", (event) => {
-		const ruffle = window.RufflePlayer.newest();
-		const player = ruffle.createPlayer();
-		player.style.width = "800px";
-		player.style.height = "572px";
-		const container = document.getElementById("ruffle-container");
-		container.appendChild(player);
-		player.ruffle().load("assets/Ultimate Flash Sonic REVISED.swf");
-	});
-
-
-        function getOrdinal(dayNumber) {
-                const suffixes = ["th", "st", "nd", "rd"];
-                const lastTwoDigits = dayNumber % 100;
-                const lastDigit = dayNumber % 10;
-
-                const suffix =
-                        lastTwoDigits >= 11 && lastTwoDigits <= 13
-                                ? "th"
-                                : suffixes[lastDigit] || "th";
-
-                return `${dayNumber}${suffix}`;
-        }
-
-        let lastUpdated;
-        /// Gets the latest commit date and shows it on the webpage.
-        fetch("https://api.github.com/repos/Treeways/treeways.github.io/branches/master")
-                .then(response => {
-                        if (response.ok) {
-                                return response.json();
-                        }
-                })
-                .then(data => {
-                        if (data) {
-                                // Convert ISO UTC timestamp to a nicer human-readable date
-                                const dateLastCommitted = new Date(data["commit"]["commit"]["author"]["date"]);
-                                const isDateWithinTwoMinutes =
-                                        (Date.now() - dateLastCommitted) <= (1.5 * 60000) ? true : false
-
-                                const dateOptions = {
-                                        weekday: "long",
-                                        year: "numeric",
-                                        month: "long",
-                                        day: "numeric",
-                                };
-                                const timeOptions = {
-                                        hour: "2-digit",
-                                        minute: "2-digit",
-                                };
-                                const formattedDate = dateLastCommitted.toLocaleDateString("en-US", dateOptions);
-                                const formattedTime = dateLastCommitted.toLocaleTimeString("en-US", timeOptions);
-                                const commitMessage = data["commit"]["commit"]["message"];
-
-                                // Get the ordinal so the date looks nicer
-                                const dayOrdinal = getOrdinal(dateLastCommitted.getDate());
-                                const formattedDateSplit = formattedDate.split(" ");
-                                if (formattedDateSplit.length >= 3) {
-                                        formattedDateSplit[2] = dayOrdinal + ",";
-                                }
-                                const formattedDateCombined = formattedDateSplit.join(" ");
-
-                                // Update the element and show it
-                                let lastUpdatedEl = document.getElementById("lastUpdated");
-                                lastUpdatedEl.innerHTML =
-                                        `Last updated on ${formattedDateCombined} at ${formattedTime}. (${commitMessage})
-                                        ${isDateWithinTwoMinutes ? "<br />This website was just updated; it'll refresh in just a moment." : ""}`;
-                                lastUpdatedEl.style.display = "block";
-				lastUpdatedEl.style.fontStyle = "italic";
-                        }
-                })
-                .catch(error => {
-                });
-	</script>
-	<script src="https://unpkg.com/@ruffle-rs/ruffle"></script>
 </html>
